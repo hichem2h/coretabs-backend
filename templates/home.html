@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Coretabs</title>
+  </head>
+  <body>
+    Hello {{ request.user.id }}
+
+    <a href="https://discourse.coretabs.net/login" target="_blank">Link</a>
+
+
+    {% block body %}
+    {% endblock %}
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+	{% for message in messages %}
+	<li>{{message}}</li>
+	{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+
+  </body>
+</html>
