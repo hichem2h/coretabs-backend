@@ -131,7 +131,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
+# EMAIL config
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# Account Settings
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
@@ -139,7 +148,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 
-LOGIN_URL = '/login'
-
-DISCOURSE_BASE_URL = 'https://discourse.coretabs.net'
-DISCOURSE_SSO_SECRET = 'testsecret'
+DISCOURSE_BASE_URL = os.environ.get('DISCOURSE_HOST')
+DISCOURSE_SSO_SECRET = os.environ.get('DISCOURSE_SSO_SECRET')
