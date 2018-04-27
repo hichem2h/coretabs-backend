@@ -11,6 +11,7 @@ ALLOWED_HOSTS = [
 	'www.coretabs.net',
     'coretabs.net',
 ]
+
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')
