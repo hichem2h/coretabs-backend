@@ -41,6 +41,7 @@ def sso(request):
         'email': request.user.email,
         'external_id': request.user.id,
         'username': request.user.username,
+        'name': request.user.first_name + request.user.last_name if request.user.first_name else "",
     }
 
     return_payload = base64.encodestring(bytes(parse.urlencode(params), 'utf-8'))
