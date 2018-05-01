@@ -16,12 +16,9 @@ class RegisterSerializer(RS):
     )
 
     def validate_name(self, name):
-        pattern = re.compile("^[\w]+ [\w]+[\w ]*")
-        if not pattern.match(name):
-            raise serializers.ValidationError(
-                _("Make sure that you passed your Full Name and that it contains only letters."))
-        pattern2 = re.compile("^.*\d.*")
-        if pattern2.match(name):
+        pattern = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي]+ [a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي]+[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي ]*$"
+        compiler = re.compile(pattern)
+        if not compiler.match(name):
             raise serializers.ValidationError(
                 _("Make sure that you passed your Full Name and that it contains only letters."))
 
@@ -45,6 +42,15 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ('username', 'email', 'first_name')
         read_only_fields = ('email', )
+
+    def validate_first_name(self, first_name):
+        pattern = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي]+ [a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي]+[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðء-ي ]*$"
+        compiler = re.compile(pattern)
+        if not compiler.match(first_name):
+            raise serializers.ValidationError(
+                _("Make sure that you passed your Full Name and that it contains only letters."))
+
+        return first_name
 
 
 class PasswordResetSerializer(PRS):
