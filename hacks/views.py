@@ -23,8 +23,9 @@ class LogoutView(LV):
             request.user.auth_token.delete()
         except (AttributeError, ObjectDoesNotExist):
             pass
+        if request.user.id:
+            self.discourse_logout(request)
 
-        self.discourse_logout(request)
         django_logout(request)
 
         return Response({"detail": _("Successfully logged out.")},
@@ -35,6 +36,7 @@ class LogoutView(LV):
                      "api_username": os.environ.get('DISCOURSE_API_USERNAME')}
 
         user = requests.get( os.environ.get('DISCOURSE_HOST') + '/users/by-external/{}.json'.format(request.user.id), data=data)
+
         user = user.json()
         user_id = user['user']['id']
 
