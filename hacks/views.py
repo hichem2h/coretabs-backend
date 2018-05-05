@@ -54,8 +54,9 @@ logout_view = LogoutView.as_view()
 
 class UserDetailsView(UDV):
     def put(self, request, *args, **kwargs):
+        response = self.update(request, *args, **kwargs)
         sync_sso(request.user)
-        super().put(request, *args, **kwargs)
+        return response
 
 
 user_details_view = UserDetailsView.as_view()
