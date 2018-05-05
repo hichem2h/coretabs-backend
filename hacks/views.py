@@ -1,8 +1,12 @@
+import os, requests
+
 from allauth.account.views import PasswordResetFromKeyView as PRV
 from django.urls import reverse_lazy
 
-import os, requests
+from .utils import sync_sso
+
 from rest_auth.views import LogoutView as LV
+from rest_auth.views import UserDetailsView as UDV
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
@@ -46,3 +50,12 @@ class LogoutView(LV):
 
 
 logout_view = LogoutView.as_view()
+
+
+class UserDetailsView(UDV):
+    def put(self, request, *args, **kwargs):
+        sync_sso(request.user)
+        super().put(request, *args, **kwargs)
+
+
+user_details_view = UserDetailsView.as_view()

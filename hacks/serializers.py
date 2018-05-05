@@ -2,6 +2,8 @@ import re
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 
+from .utils import sync_sso
+
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer as RS
 from rest_auth.serializers import PasswordResetSerializer as PRS
@@ -31,6 +33,9 @@ class RegisterSerializer(RS):
             'email': self.validated_data.get('email', ''),
             'first_name': self.validated_data.get('name', '')
         }
+
+    def custom_signup(self, request, user):
+        sync_sso(user)
 
 
 UserModel = get_user_model()
