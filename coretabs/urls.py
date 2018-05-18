@@ -19,15 +19,16 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 from allauth.account.views import confirm_email
 
-from hacks.views import password_reset_from_key, logout_view, user_details_view, resend_confirmation_view
+from hacks.views import password_reset_from_key, logout_view, user_details_view, resend_confirmation_view, change_email_view
 
 from discourse import views
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('api/v1/auth/logout/', logout_view),
+    path('api/v1/auth/change_email/', change_email_view),
     path('api/v1/auth/user/', user_details_view),
     path('api/v1/auth/confirmation/', resend_confirmation_view),
     path('api/v1/auth/', include('rest_auth.urls')),
@@ -36,7 +37,7 @@ urlpatterns = [
 
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 
-    url(r"^auth/password/reset/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$",
+    url(r"^auth/password/reset/key/(?P<uidb36>[0-9A-Za-z]+)/(?P<key>.+)/$",
         password_reset_from_key,
         name="account_reset_password_from_key"),
     url(r"^auth/confirm-email/(?P<key>[-:\w]+)/$", confirm_email,

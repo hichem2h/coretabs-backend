@@ -12,11 +12,11 @@ from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout as django_logout
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.debug import sensitive_post_parameters
 
 
-from .serializers import ResendConfirmSerializer
+from .serializers import ResendConfirmSerializer, ChangeEmailSerializer
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
 
 
 class PasswordResetFromKeyView(PRV):
@@ -75,7 +75,6 @@ class ResendConfirmView(GenericAPIView):
     Returns the success/fail message.
     """
     serializer_class = ResendConfirmSerializer
-    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         # Create a serializer with request.data
@@ -91,3 +90,23 @@ class ResendConfirmView(GenericAPIView):
 
 
 resend_confirmation_view = ResendConfirmView.as_view()
+
+
+class ChangeEmailView(GenericAPIView):
+
+    serializer_class = ChangeEmailSerializer
+
+    def post(self, request, *args, **kwargs):
+        # Create a serializer with request.data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save(request)
+        # Return the success message with OK HTTP status
+        return Response(
+            {"detail": _("Verification e-mail sent.")},
+            status=status.HTTP_200_OK
+        )
+
+
+change_email_view = ChangeEmailView.as_view()

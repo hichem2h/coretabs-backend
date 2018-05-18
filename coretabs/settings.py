@@ -151,7 +151,7 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
 ACCOUNT_ADAPTER = 'hacks.adapter.MyAccountAdapter'
 
-# SITE_ID = 1
+SITE_ID = 1
 
 DISCOURSE_BASE_URL = os.environ.get('DISCOURSE_HOST')
 DISCOURSE_SSO_SECRET = os.environ.get('DISCOURSE_SSO_SECRET')
@@ -164,8 +164,18 @@ AUTHENTICATION_BACKENDS = (
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'hacks.serializers.UserDetailsSerializer',
     'PASSWORD_RESET_SERIALIZER': 'hacks.serializers.PasswordResetSerializer',
+    'PASSWORD_RESET_CONFIRM_SERIALIZER': 'hacks.serializers.PasswordResetConfirmSerializer'
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'hacks.serializers.RegisterSerializer',
 }
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'hacks.permissions.SecretKeyPermission',
+#     )
+# }
+
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
